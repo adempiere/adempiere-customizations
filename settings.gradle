@@ -12,6 +12,8 @@ rootProject.name = 'adempiere-customizations'
 
 include (':' + rootProject.name + '.base')
 project (':' + rootProject.name + '.base').projectDir = file('base')
+include (':' + rootProject.name + '.patches')
+project (':' + rootProject.name + '.patches').projectDir = file('patches')
 include (':' + rootProject.name + '.adempiere.test')
 project (':' + rootProject.name + '.adempiere.test').projectDir = file('adempiere.test')
 include (':' + rootProject.name + '.asset')

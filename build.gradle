@@ -92,6 +92,7 @@ dependencies {
 
    	//	Patches Libraries
     api project(':adempiere-customizations.base')
+   	api project(':adempiere-customizations.patches')
    	// api project(':adempiere-customizations.adempiere.test')
    	// api project(':adempiere-customizations.asset')
    	// api project(':adempiere-customizations.cashflow')

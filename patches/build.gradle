@@ -1,0 +1,28 @@
+apply plugin: 'java'
+apply plugin: 'java-library'
+
+sourceCompatibility = JavaVersion.VERSION_17
+
+dependencies {
+    api fileTree(
+        dir: 'lib',
+        include: [
+            '*.jar'
+        ]
+    )
+
+    // Include the base module
+    api project(':adempiere-customizations.base')
+
+    // === Organization-specific customization libraries ===
+    // This is where YOUR organization's patches to ADempiere are declared.
+    // Add your localization, business-process, or industry-specific libraries here.
+    // Each implementor who forks this repo declares their own dependencies in this section.
+    //
+    // Note: the Java classes inside this module keep their standard ADempiere package
+    // names (org.compiere.*, org.adempiere.*, etc.) — the module name 'patches' is a
+    // Gradle build identifier only and does not affect Java package or class naming.
+    //
+    // Example (YOUR LOCALIZATION, commented out):
+    // api "com.your_domain:your_localization:1.0.0"
+}
