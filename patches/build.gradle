@@ -1,7 +1,10 @@
 apply plugin: 'java'
 apply plugin: 'java-library'
 
-sourceCompatibility = JavaVersion.VERSION_17
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
 
 dependencies {
     api fileTree(
@@ -24,5 +27,5 @@ dependencies {
     // Gradle build identifier only and does not affect Java package or class naming.
     //
     // Example (YOUR LOCALIZATION, commented out):
-    // api "com.your_domain:your_localization:1.0.0"
+    // api com.your_domain:your_localization:1.0.0
 }
