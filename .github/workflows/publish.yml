@@ -65,10 +65,8 @@ jobs:
           ORG_GRADLE_PROJECT_deployPublishUrl: ${{ vars.DEPLOY_PUBLISH_GITHUB_URL }}
           ORG_GRADLE_PROJECT_deployUsername: ${{ github.actor }}
           ORG_GRADLE_PROJECT_deployToken: ${{ secrets.DEPLOY_TOKEN }}
-          ORG_GRADLE_PROJECT_deployRepository: ${{ vars.DEPLOY_REPOSITORY }}
           GITHUB_DEPLOY_VERSION: ${{ github.event.release.tag_name }}
           GITHUB_DEPLOY_GROUP: ${{ vars.GITHUB_DEPLOY_GROUP }}
           GITHUB_DEPLOY_URL: ${{ vars.DEPLOY_PUBLISH_GITHUB_URL }}
           GITHUB_DEPLOY_USER: ${{ github.actor }}
           GITHUB_DEPLOY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_DEPLOY_REPOSITORY: ${{ vars.DEPLOY_REPOSITORY }}
