@@ -1,40 +1,104 @@
-# ADempiere Patches
-Use this project to publish patches from ADempiere
+# ADempiere Customizations
 
-## How to add a patch?
-If you want to add a patch for a adempiere source folder just make the follow:
-My example is adding the patch for `org.spin.loan_management`.
+Template repository for organization-specific ADempiere customizations.
+Fork this repository to add your own Java patches, library dependencies, and localization modules.
 
-The file `settings.gradle` already have the loan management as folder
+---
+
+## Repository structure
+
 ```
+adempiere-customizations/
+├── base/
+│   ├── src/main/java/     ← Your organization's Java classes go here
+│   │                         Override or extend ADempiere models, processes, validators, etc.
+│   │                         Use standard ADempiere package names:
+│   │                         org/compiere/model/, org/adempiere/*, etc.
+│   └── build.gradle       ← Generic io.github.adempiere library dependencies
+│                             (applicable to all implementors using this stack)
+├── patches/
+│   └── build.gradle       ← Your organization's specific library dependencies
+│                             (localization JARs, industry-specific libraries, etc.)
+└── [additional modules]/  ← Optional: add further patch modules (see below)
+```
+
+---
+
+## How to add Java customizations (`base/src/`)
+
+Add your Java source files under `base/src/main/java/`.
+Use standard ADempiere package names — the module name `base` is a Gradle build identifier
+only and does not affect Java package or class naming.
+
+---
+
+## How to add organization-specific library dependencies (`patches/`)
+
+Declare your organization's proprietary or localization libraries in `patches/build.gradle`
+under the `dependencies` block. A commented example is provided there.
+
+---
+
+## How to add a patch module
+
+For larger or logically separate patches, add a dedicated module.
+Example: adding a patch for `org.spin.loan_management`.
+
+`settings.gradle` already includes loan management as an example:
+```gradle
 include (':' + rootProject.name + '.investment-and-loan')
 project (':' + rootProject.name + '.investment-and-loan').projectDir = file('investment-and-loan')
 ```
 
+Steps:
 - Add a subfolder named `investment-and-loan`
-- Add it `api project(':adempiere-customizations.investment-and-loan')` inside main `build.gradle` below of `api project(':adempiere-customizations.base')`
-- Inside folder add a gradle like the base gradle `base/build.gradle` (you can copy and paste it)
-- Change the variable value `def packageName = "base"` by `def packageName = "investment-and-loan"` this is the final package name
-- Add a folder `src/main/java`
-- Add your patch with package inside folder
+- Add `api project(':adempiere-customizations.investment-and-loan')` in the root `build.gradle`
+  below `api project(':adempiere-customizations.base')`
+- Inside the folder add a `build.gradle` modelled on `base/build.gradle`
+- Change `def packageName = "base"` to `def packageName = "investment-and-loan"`
+- Add a `src/main/java` folder and place your patch classes there
 
+---
+
+## Local build setup
+
+Add to `~/.gradle/gradle.properties`:
+
+```properties
+deployUsername=YOUR_GITHUB_USERNAME
+deployToken=YOUR_GITHUB_PAT_WITH_READ_PACKAGES_SCOPE
+```
+
+Build:
+```bash
+gradle clean build
+```
+
+---
 
 ## Repository secrets
 
 ### General
-- `DEPLOY_PUBLISH_GROUP`: Sets the group to publish, it is mandatory, its default value is `io.github.adempiere`. See https://docs.oracle.com/javase/tutorial/java/package/namingpkgs.html for more information.
+- `DEPLOY_PUBLISH_GROUP`: Group to publish. Default: `io.github.adempiere`.
 
-### To publish in GitHub packages
+### GitHub Packages (required for all)
 
-- `DEPLOY_PUBLISH_GITHUB_URL`: The path where packages will be published in github, its default value is `https://maven.pkg.github.com/adempiere/adempiere-customizations`, it must be changed unless you have write permission in that space. As a good practice use the name of the organization and the name of the repository containing the patches.
-- `DEPLOY_REPOSITORY`: The path to the maven custom repository for downloading packages from github, it is not mandatory, default value is `https://maven.pkg.github.com/adempiere/adempiere-customizations`.
-- `DEPLOY_USER`: The user name with write access to the package release repository.
-- `DEPLOY_TOKEN`: The token generated for the previously indicated user, it should be noted that he/she must have access to read and write packages.
+Required whether you use this repo as-is or as a fork.
 
-### To publish in Sonatype
+- `DEPLOY_PUBLISH_GITHUB_URL`: Publish URL. Default: `https://maven.pkg.github.com/adempiere/adempiere-customizations`.
+  Change this to your own org/repo if you are publishing from a fork.
+- `DEPLOY_REPOSITORY`: Maven repository URL for downloading packages. Default: `https://maven.pkg.github.com/adempiere/adempiere-customizations`.
+- `DEPLOY_USER`: GitHub username with write access to the package repository.
+- `DEPLOY_TOKEN`: GitHub classic PAT with `write:packages` scope for the above user.
 
-- `DEPLOY_PUBLISH_SONATYPE_URL`: The path where packages will be published in sonatype, its default value is `https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/`.
-- `PGP_PASSPHRASE`: A GPG key is a pair of keys: a public key and a private key. The public key is distributed to verifiers, while the private key is kept secret and used to sign artifacts.
-- `PGP_SECRET`: The private key is often protected by a passphrase. This passphrase is used to decrypt the private key and allows it to be used for signing.
-- `OSSRH_USERNAME`: The user name with write access to the package release repository.
-- `OSSRH_TOKEN`: The token generated for the previously indicated user.
+### Maven Central / Sonatype (adempiere org only)
+
+The adempiere org publishes releases to Maven Central under the group `io.github.adempiere`.
+This is the standard publication policy for this repository.
+Implementors publishing from a fork do **not** need these secrets — GitHub Packages is sufficient.
+
+- `DEPLOY_PUBLISH_SONATYPE_URL`: Sonatype staging URL. Default: `https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/`.
+- `PGP_PASSPHRASE`: Passphrase for the GPG signing key.
+- `PGP_SECRET`: GPG private key (base64-encoded).
+- `OSSRH_USERNAME`: Sonatype username.
+- `OSSRH_TOKEN`: Sonatype token.

@@ -7,7 +7,7 @@ plugins {
 }
 
 java {
-	sourceCompatibility = JavaVersion.VERSION_11
+	sourceCompatibility = JavaVersion.VERSION_17
 	targetCompatibility = JavaVersion.VERSION_17
 	withJavadocJar()
 	withSourcesJar()
@@ -92,30 +92,7 @@ dependencies {
 
    	//	Patches Libraries
     api project(':adempiere-customizations.base')
-   	// api project(':adempiere-customizations.adempiere.test')
-   	// api project(':adempiere-customizations.asset')
-   	// api project(':adempiere-customizations.cashflow')
-   	// api project(':adempiere-customizations.crm')
-   	// api project(':adempiere-customizations.discord-notifier')
-   	// api project(':adempiere-customizations.distribution')
-   	// api project(':adempiere-customizations.extend')
-   	// api project(':adempiere-customizations.freight')
-   	// api project(':adempiere-customizations.human-resource-and-payroll')
-   	// api project(':adempiere-customizations.investment-and-loan')
-   	// api project(':adempiere-customizations.jasperreports')
-   	// api project(':adempiere-customizations.loan')
-   	// api project(':adempiere-customizations.manufacturing')
-   	// api project(':adempiere-customizations.migration')
-   	// api project(':adempiere-customizations.openid-authentication')
-   	// api project(':adempiere-customizations.point-of-sales')
-   	// api project(':adempiere-customizations.production')
-   	// api project(':adempiere-customizations.project')
-   	// api project(':adempiere-customizations.request')
-   	// api project(':adempiere-customizations.store')
-   	// api project(':adempiere-customizations.telegram-notifier')
-   	// api project(':adempiere-customizations.time-and-attendance')
-   	// api project(':adempiere-customizations.tools')
-   	// api project(':adempiere-customizations.wms')
+   	api project(':adempiere-customizations.patches')
 }
 
 
